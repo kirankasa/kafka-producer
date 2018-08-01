@@ -1,0 +1,7 @@
+zookeeper-server-start.bat C:\Users\kiran\softwares\kafka_2.11-2.0.0\config\zookeeper.properties
+kafka-server-start.bat C:\Users\kiran\softwares\kafka_2.11-2.0.0\config\server.properties
+kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
+kafka-topics.bat --list --zookeeper localhost:2181
+kafka-console-producer.bat --broker-list localhost:9092 --topic test
+kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic test --from-beginning
+wmic process where "caption = 'java.exe' and commandline like '%server-1.properties%'" get processid

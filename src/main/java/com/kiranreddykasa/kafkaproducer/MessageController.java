@@ -1,24 +1,26 @@
 package com.kiranreddykasa.kafkaproducer;
 
+import example.avro.User;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/messages")
 public class MessageController {
 
-    private KafkaTemplate<String, String> kafkaTemplate;
+    private KafkaTemplate<String, User> kafkaTemplate;
 
-    public MessageController(KafkaTemplate<String, String> kafkaTemplate) {
+    public MessageController(KafkaTemplate<String, User> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    @PostMapping
-    public String message(@RequestBody String message) {
-        kafkaTemplate.send("test", message);
-        return message;
+    @GetMapping
+    public String message() {
+        User user =new User();
+        user.setFavoriteColor("blue");
+        user.setFavoriteNumber(1234);
+        user.setName("kiran");
+        kafkaTemplate.send("messages", user);
+        return "Success";
     }
 }
